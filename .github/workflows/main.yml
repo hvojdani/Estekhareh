@@ -13,8 +13,8 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 env:
-  SOLUTION_NAME: Estekhareh.sln
-  ANDROID_PROJECT_NAME: Estekhareh.csproj
+  SOLUTION_NAME: Estekhareh
+  ANDROID_PROJECT_NAME: Estekhareh.Android
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
@@ -22,16 +22,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - name: Building APK
-        uses: ./action
+      - name: Generate Xamarin Form Android APK
+        # You may pin to the exact commit or the version.
+        # uses: fahimshahrierrasel/Xamarin-Droid-Builder@3b0a1d8692d8ca70d3811f4f79743551da24cc60
+        uses: fahimshahrierrasel/Xamarin-Droid-Builder@1.0.2
         with:
-          args: /r:True /t:SignAndroidPackage /p:AndroidSdkDirectory=/android/sdk ${{env.SOLUTION_NAME}}/${{env.ANDROID_PROJECT_NAME}}/${{env.ANDROID_PROJECT_NAME}}.csproj
-      - name: Artifacts
-        run: |
-          mkdir -p apks
-          cp ${{env.SOLUTION_NAME}}/${{env.ANDROID_PROJECT_NAME}}/bin/Debug/*.apk apks
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v1
-        with:
-          name: apks
-          path: apks
+          # Solution Name or the root folder name.
+          SOLUTION_NAME: Estekhareh
+          # Android Project name or the folder name of the android project usually its end with .Android as postfix.
+          ANDROID_PROJECT_NAME:  Estekhareh.Android
