@@ -1,4 +1,5 @@
-﻿using Estekhareh.Models;
+﻿using Estekhareh.DatabaseModels;
+using Estekhareh.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,58 +8,20 @@ using Xamarin.Forms;
 
 namespace Estekhareh.Services
 {
-    public class EstekharehStore : IDataStore<Item>
+    public class EstekharehStore : IDataStore
     {
-        IEstekharehDatabase DataStore => DependencyService.Get<IEstekharehDatabase>();
-        readonly List<Item> items;
+        IEstekharehDatabase DataBaseStore => DependencyService.Get<IEstekharehDatabase>();
 
-        public EstekharehStore()
+        public async Task<Item> GetItemAsync(int index)
         {
-            items = new List<Item>()
+            return (await GetItemsByIdList(index)).FirstOrDefault();
+        }
+
+        public Task<IEnumerable<Item>> GetItemsAsync(int startIndex, int ayaCount)
+        {
+            if (startIndex < 2 || startIndex > 6236)
             {
-                new Item { Id = 1, Text = "First item", Description="This is an item description." },
-                new Item { Id = 2, Text = "Second item", Description="This is an item description." },
-                new Item { Id = 3, Text = "Third item", Description="This is an item description." },
-                new Item { Id = 4, Text = "Fourth item", Description="This is an item description." },
-                new Item { Id = 5, Text = "Fifth item", Description="This is an item description." },
-                new Item { Id = 6, Text = "Sixth item", Description="This is an item description." }
-            };
-        }
-
-        public async Task<bool> AddItemAsync(Item item)
-        {
-            items.Add(item);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<bool> UpdateItemAsync(Item item)
-        {
-            var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-            items.Remove(oldItem);
-            items.Add(item);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<bool> DeleteItemAsync(int id)
-        {
-            var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
-            items.Remove(oldItem);
-
-            return await Task.FromResult(true);
-        }
-
-        public async Task<Item> GetItemAsync(int id)
-        {
-            return (await GetItemsByIdList(id)).FirstOrDefault();
-        }
-
-        public Task<IEnumerable<Item>> GetItemsAsync(int startAya, int ayaCount)
-        {
-            if( startAya < 2 || startAya > 6236)
-            {
-                throw new ArgumentOutOfRangeException(nameof(startAya), startAya, "must between 2 and 6236");
+                throw new ArgumentOutOfRangeException(nameof(startIndex), startIndex, "must between 2 and 6236");
             }
 
             if (ayaCount < 1 || ayaCount > 20)
@@ -66,7 +29,7 @@ namespace Estekhareh.Services
                 throw new ArgumentOutOfRangeException(nameof(ayaCount), ayaCount, "must between 1 and 20");
             }
 
-            var ayasIndex = GetAyasIndexArray(startAya, ayaCount);
+            var ayasIndex = GetAyasIndexArray(startIndex, ayaCount);
 
             return GetItemsByIdList(ayasIndex);
 
@@ -74,29 +37,36 @@ namespace Estekhareh.Services
 
         private async Task<IEnumerable<Item>> GetItemsByIdList(params int[] ayasIndex)
         {
-            if(ayasIndex is null || ayasIndex.Length == 0)
+            if (ayasIndex is null || ayasIndex.Length == 0)
             {
                 throw new ArgumentNullException(nameof(ayasIndex));
             }
 
-            var ayaList = await DataStore.GetAyas(ayasIndex);
-            var translateList = await DataStore.GetTranslates(EnmTranslateBy.fa_makarem, ayasIndex);
-            var suras = await DataStore.GetSuras(ayaList.Select(a => a.sura).Distinct().ToArray());
+            var ayaList = await DataBaseStore.GetAyas(ayasIndex);
 
-            return ayaList.Select((aya, i) => new Item
+            var setting = await DataBaseStore.GetSetting();
+            var translateList = new List<QuranTranslate>();
+            if (setting.enable_trans == 1)
+            {
+                translateList = await DataBaseStore.GetTranslates(setting.translator_index, ayasIndex);
+            }
+
+            var suras = await DataBaseStore.GetSuras(ayaList.Select(a => a.sura).Distinct().ToArray());
+            
+            return ayaList.Select((aya) => new Item
             {
                 Id = aya.index,
                 Text = aya.text,
-                Description = translateList[i].text,
+                Description = translateList.FirstOrDefault(i => i.index == aya.index)?.text,
                 AyaDescription = $"{suras.FirstOrDefault(s => s.id == aya.sura)?.sura} {aya.aya}"
             });
         }
 
-        private static int[] GetAyasIndexArray(int startAya, int ayaCount)
+        private static int[] GetAyasIndexArray(int startIndex, int ayaCount)
         {
             var randomAyas = new List<int>(ayaCount);
-            randomAyas.Add(startAya);
-            var temp = startAya;
+            randomAyas.Add(startIndex);
+            var temp = startIndex;
             for (int i = 1; i < ayaCount; i++)
             {
                 temp = temp + 1;
@@ -108,6 +78,50 @@ namespace Estekhareh.Services
             }
 
             return randomAyas.ToArray();
+        }
+
+        public async Task SaveLastIndex(int index)
+        {
+            var setting = await DataBaseStore.GetSetting();
+            setting.last_index = index;
+            await DataBaseStore.SetSetting(setting);
+        }
+
+        public async Task<int> GetLastIndex()
+        {
+            var setting = await DataBaseStore.GetSetting();
+            return setting.last_index;
+        }
+
+
+        public async Task SaveSetting(SettingModel settingModel)
+        {
+            var setting = await DataBaseStore.GetSetting();
+
+            setting.enable_trans = settingModel.EnableTranslation ? 1 : 0;
+            setting.translator_index = settingModel.TranslatorIndex;
+            await DataBaseStore.SetSetting(setting);
+        }
+
+        public async Task<SettingModel> GetSetting()
+        {
+            var setting = await DataBaseStore.GetSetting();
+
+            return new SettingModel
+            {
+                EnableTranslation = setting.enable_trans == 1,
+                TranslatorIndex = setting.translator_index
+            };
+        }
+
+        public async Task<List<TranslatorModel>> GetTranslates()
+        {
+            var translators = await DataBaseStore.GetTranslators();
+            return translators.Select(t => new TranslatorModel
+            {
+                Index = t.id,
+                Name = t.name
+            }).ToList();
         }
     }
 }

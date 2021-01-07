@@ -10,32 +10,25 @@ using Xamarin.Forms;
 namespace Estekhareh.ViewModels
 {
 
-    [QueryProperty(nameof(StartAya), nameof(StartAya))]
+    [QueryProperty(nameof(StartIndex), nameof(StartIndex))]
     public class ItemsViewModel : BaseViewModel
     {
         const int GETCOUNT = 7;
-        private int _startAya = 2;
-        public string StartAya
+        private int _startIndex = 0;
+        public string StartIndex
         {
             get
             {
-                return _startAya.ToString();
+                return _startIndex.ToString();
             }
             set
             {
-                _startAya = Convert.ToInt32(value);
-                if (_startAya != 0)
-                {
-                    ExecuteLoadItemsCommand().ConfigureAwait(false);
-                }
+                _startIndex = Convert.ToInt32(value);
             }
         }
 
-
         private Item _selectedItem;
         public ObservableCollection<Item> Items { get; }
-        public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
         public Command<Item> ItemTapped { get; }
 
         public ItemsViewModel()
@@ -44,8 +37,6 @@ namespace Estekhareh.ViewModels
             //LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             ItemTapped = new Command<Item>(OnItemSelected);
-
-            AddItemCommand = new Command(OnAddItem);
 
         }
 
@@ -56,7 +47,8 @@ namespace Estekhareh.ViewModels
             try
             {
                 Items.Clear();
-                var estekharehItems = await DataStore.GetItemsAsync(_startAya, GETCOUNT);
+                var estekharehItems = await DataStore.GetItemsAsync(_startIndex, GETCOUNT);
+                await DataStore.SaveLastIndex(_startIndex);
 
                 foreach (var item in estekharehItems)
                 {
@@ -74,16 +66,16 @@ namespace Estekhareh.ViewModels
             }
         }
 
-
-        //public void OnAppearing()
-        //{
-            //if (Items.Count == 0)
-            //{
-            //    IsBusy = true;
-            //    SelectedItem = null;
-            //    await ExecuteLoadItemsCommand().ConfigureAwait(false);
-            //}
-        //}
+        public async void OnAppearing()
+        {
+            if (_startIndex == 0)
+            {
+                _startIndex = await DataStore.GetLastIndex();
+                if (_startIndex == 0)
+                    return;
+            }
+            await ExecuteLoadItemsCommand().ConfigureAwait(false);
+        }
 
         public async void OnBackButtonPressed()
         {
@@ -98,11 +90,6 @@ namespace Estekhareh.ViewModels
                 SetProperty(ref _selectedItem, value);
                 OnItemSelected(value);
             }
-        }
-
-        private async void OnAddItem(object obj)
-        {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
         }
 
         async void OnItemSelected(Item item)

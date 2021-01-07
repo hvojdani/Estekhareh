@@ -21,11 +21,11 @@ namespace Estekhareh.ViewModels
         private async Task GoToResultPage()
         {
             // await Browser.OpenAsync(""));
-            var aya = GetRandomStartAya().ToString();
-            await Shell.Current.GoToAsync($"//{ nameof(ItemsPage)}?{nameof(ItemsViewModel.StartAya)}={aya}", true);
+            var index = GetRandomStartIndex().ToString();
+            await Shell.Current.GoToAsync($"//{ nameof(ItemsPage)}?{nameof(ItemsViewModel.StartIndex)}={index}", true);
         }
 
-        private int GetRandomStartAya()
+        private int GetRandomStartIndex()
         {
             Random random = new Random(Environment.TickCount);
             return random.Next(2, 6236);
