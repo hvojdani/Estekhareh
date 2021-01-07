@@ -12,6 +12,9 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <Color x:Key="Accent">#96d1ff</Color>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="DarkGray"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 

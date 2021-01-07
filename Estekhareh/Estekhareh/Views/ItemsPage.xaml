@@ -12,6 +12,9 @@
             <Style x:Key="ListItemTextStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="#1e39bf"/>
             </Style>
+            <Style x:Key="ListItemDetailTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     <!--<ContentPage.ToolbarItems>

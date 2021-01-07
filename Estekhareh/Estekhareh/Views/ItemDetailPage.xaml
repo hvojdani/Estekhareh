@@ -8,6 +8,9 @@
             <Style x:Key="AyaTextStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="#1e39bf"/>
             </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
     

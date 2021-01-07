@@ -7,6 +7,18 @@
              x:Class="Estekhareh.Views.SettingPage"
              Shell.NavBarIsVisible="False"
              FlowDirection="RightToLeft">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Picker">
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
     <ContentPage.Content>
         <Grid Margin="20">
             <Grid.ColumnDefinitions>
