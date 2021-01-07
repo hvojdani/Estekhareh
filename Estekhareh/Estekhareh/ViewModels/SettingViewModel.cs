@@ -6,16 +6,16 @@ using Xamarin.Forms;
 
 namespace Estekhareh.ViewModels
 {
-    public class LoginViewModel : BaseViewModel
+    public class SettingViewModel : BaseViewModel
     {
-        public Command LoginCommand { get; }
+        public Command SaveCommand { get; }
 
-        public LoginViewModel()
+        public SettingViewModel()
         {
-            LoginCommand = new Command(OnLoginClicked);
+            SaveCommand = new Command(OnSaveClicked);
         }
 
-        private async void OnLoginClicked(object obj)
+        private async void OnSaveClicked(object obj)
         {
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");

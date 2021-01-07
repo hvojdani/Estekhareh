@@ -23,11 +23,16 @@ namespace Estekhareh.Views
             BindingContext = _viewModel = new ItemsViewModel();
         }
 
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            _viewModel.OnAppearing();
-        }
+        //protected override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    _viewModel.OnAppearing();
+        //}
 
+        protected override bool OnBackButtonPressed()
+        {
+            _viewModel.OnBackButtonPressed();
+            return true;
+        }
     }
 }

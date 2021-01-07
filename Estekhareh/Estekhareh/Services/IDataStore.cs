@@ -10,6 +10,6 @@ namespace Estekhareh.Services
         Task<bool> UpdateItemAsync(T item);
         Task<bool> DeleteItemAsync(int id);
         Task<T> GetItemAsync(int id);
-        Task<IEnumerable<T>> GetItemsAsync(int count);
+        Task<IEnumerable<T>> GetItemsAsync(int startAya, int ayaCount);
     }
 }

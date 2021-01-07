@@ -14,4 +14,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SheardResources\SheardResources.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\SettingPage.xaml.cs">
+      <DependentUpon>SettingPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

@@ -7,29 +7,41 @@
              xmlns:model="clr-namespace:Estekhareh.Models"  
              x:Name="BrowseItemsPage">
 
-    <ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="ListItemTextStyle" TargetType="Label">
+                <Setter Property="TextColor" Value="#1e39bf"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <!--<ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AddItemCommand}" />
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
     <!--
       x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
       https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
     <!--<RefreshView x:DataType="local:ItemsViewModel" Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">-->
         <CollectionView x:Name="ItemsListView"
+                x:DataType="local:ItemsViewModel"
                 ItemsSource="{Binding Items}"
+                EmptyView="تاکنون استخاره ای نداشته اید"
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <StackLayout Padding="10" x:DataType="model:Item">
-                        <Label Text="{Binding AyaDescription}" 
-                            LineBreakMode="NoWrap"
-                            Style="{DynamicResource ListItemDetailTextStyle}"
-                            FontSize="12" />
-                        <Label Text="{Binding Text}" 
-                            LineBreakMode="WordWrap" 
-                            Style="{DynamicResource ListItemTextStyle}" 
-                            FontSize="16" />
-                        <Label Text="{Binding Description}" 
+                    <Label LineBreakMode="WordWrap"  FlowDirection="RightToLeft" 
+                           Style="{DynamicResource ListItemTextStyle}">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Text, Mode=OneWay}" FontSize="16"/>
+                                <Span Text="{Binding AyaDescription, Mode=OneWay, StringFormat='﴿{0}﴾'}" FontSize="12"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        
+                        
+                    </Label>
+                    <Label Text="{Binding Description}" 
                             LineBreakMode="WordWrap"
                             Style="{DynamicResource ListItemDetailTextStyle}"
                             FontSize="13" />

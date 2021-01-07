@@ -54,16 +54,21 @@ namespace Estekhareh.Services
             return (await GetItemsByIdList(id)).FirstOrDefault();
         }
 
-        public Task<IEnumerable<Item>> GetItemsAsync(int ayaCount)
+        public Task<IEnumerable<Item>> GetItemsAsync(int startAya, int ayaCount)
         {
+            if( startAya < 2 || startAya > 6236)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startAya), startAya, "must between 2 and 6236");
+            }
+
             if (ayaCount < 1 || ayaCount > 20)
             {
                 throw new ArgumentOutOfRangeException(nameof(ayaCount), ayaCount, "must between 1 and 20");
             }
 
-            var randomAyas = GetRandomAyaStart(ayaCount);
+            var ayasIndex = GetAyasIndexArray(startAya, ayaCount);
 
-            return GetItemsByIdList(randomAyas);
+            return GetItemsByIdList(ayasIndex);
 
         }
 
@@ -83,25 +88,23 @@ namespace Estekhareh.Services
                 Id = aya.index,
                 Text = aya.text,
                 Description = translateList[i].text,
-                AyaDescription = $"{suras.FirstOrDefault(s => s.id == aya.sura)?.sura}-{aya.aya}"
+                AyaDescription = $"{suras.FirstOrDefault(s => s.id == aya.sura)?.sura} {aya.aya}"
             });
         }
 
-        private static int[] GetRandomAyaStart(int ayaCount)
+        private static int[] GetAyasIndexArray(int startAya, int ayaCount)
         {
-            Random random = new Random();
             var randomAyas = new List<int>(ayaCount);
-            var rand = random.Next(2, 6236);
-            randomAyas.Add(rand);
-
+            randomAyas.Add(startAya);
+            var temp = startAya;
             for (int i = 1; i < ayaCount; i++)
             {
-                rand = rand + 1;
-                if (rand > 6236)
+                temp = temp + 1;
+                if (temp > 6236)
                 {
                     break;
                 }
-                randomAyas.Add(rand);
+                randomAyas.Add(temp);
             }
 
             return randomAyas.ToArray();
