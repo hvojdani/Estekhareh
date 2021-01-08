@@ -5,9 +5,9 @@
              Title="{Binding Title}">
     
     <StackLayout Spacing="20" Padding="15" FlowDirection="RightToLeft">
-        <Label Text="{Binding AyaDescription}" FontSize="14" />
+        <Label Text="{Binding AyaDescription}" Style="{DynamicResource PageLabel}" FontSize="14" />
         <Label Text="{Binding Text}" FontSize="18" Style="{DynamicResource ListItemTextStyle}"/>
-        <Label Text="{Binding Description}" FontSize="14"/>
+        <Label Text="{Binding Description}" Style="{DynamicResource PageLabel}" FontSize="14"/>
     </StackLayout>
     
 </ContentPage>
