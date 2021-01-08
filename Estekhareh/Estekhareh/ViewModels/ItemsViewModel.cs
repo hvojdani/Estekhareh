@@ -75,11 +75,6 @@ namespace Estekhareh.ViewModels
             await ExecuteLoadItemsCommand().ConfigureAwait(false);
         }
 
-        public async void OnBackButtonPressed()
-        {
-            await Shell.Current.GoToAsync($"//{ nameof(MainPage)}", true);
-        }
-
         public Item SelectedItem
         {
             get => _selectedItem;

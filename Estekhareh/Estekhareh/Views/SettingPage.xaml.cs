@@ -25,11 +25,5 @@ namespace Estekhareh.Views
             _viewModel.OnAppearing();
         }
 
-        protected override bool OnBackButtonPressed()
-        {
-            _viewModel.GoToMain();
-            return true;
-        }
-
     }
 }

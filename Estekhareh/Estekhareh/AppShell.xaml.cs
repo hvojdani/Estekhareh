@@ -12,11 +12,20 @@ namespace Estekhareh
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
+            Routing.RegisterRoute(nameof(ItemsPage), typeof(ItemsPage));
+            Routing.RegisterRoute(nameof(SettingPage), typeof(SettingPage));
         }
  
-        private async void OnMenuItemClicked(object sender, EventArgs e)
+        private async void OnSettingMenuClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync($"//{nameof(SettingPage)}");
+            Shell.Current.FlyoutIsPresented = false;
+            await Shell.Current.GoToAsync($"{nameof(SettingPage)}");
+        }
+
+        private async void OnLastResultMenuClicked(object sender, EventArgs e)
+        {
+            Shell.Current.FlyoutIsPresented = false;
+            await Shell.Current.GoToAsync($"{nameof(ItemsPage)}");
         }
     }
 }

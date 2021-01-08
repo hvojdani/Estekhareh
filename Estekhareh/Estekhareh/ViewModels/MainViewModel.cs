@@ -22,7 +22,8 @@ namespace Estekhareh.ViewModels
         {
             // await Browser.OpenAsync(""));
             var index = GetRandomStartIndex().ToString();
-            await Shell.Current.GoToAsync($"//{ nameof(ItemsPage)}?{nameof(ItemsViewModel.StartIndex)}={index}", true);
+            
+            await Shell.Current.GoToAsync($"{ nameof(ItemsPage)}?{nameof(ItemsViewModel.StartIndex)}={index}", true);
         }
 
         private int GetRandomStartIndex()

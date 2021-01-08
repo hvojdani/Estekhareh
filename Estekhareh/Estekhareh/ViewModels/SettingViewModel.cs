@@ -41,11 +41,6 @@ namespace Estekhareh.ViewModels
                 TranslatorIndex = SelectedTranslator.Index
             });
 
-            GoToMain();
-        }
-
-        public async void GoToMain()
-        {
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
             await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
         }
