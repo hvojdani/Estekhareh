@@ -15,7 +15,9 @@ namespace Estekhareh.Services
         static SQLiteAsyncConnection Database = null;
 
         private EstekharehSetting _cachedSetting;
-        public void CopyFromResourceToPhone()
+        private List<QuranTranslator> _cachedTranslators;
+
+        public static void CopyFromResourceToPhone()
         {
             if (File.Exists(Constants.DatabasePath))
             {
@@ -24,21 +26,21 @@ namespace Estekhareh.Services
             }
 
             var manager = new ResourceManager("SheardResources.Properties.Resources", typeof(SheardResClass).Assembly);
-            var stream = new MemoryStream(manager.GetObject("QuranAlkarim") as byte[]);
-         
-            using (var reader = new System.IO.BinaryReader(stream))
+            using (var stream = new MemoryStream(manager.GetObject("QuranAlkarim") as byte[]))
             {
-                using (BinaryWriter bw = new BinaryWriter(new FileStream(Constants.DatabasePath, FileMode.CreateNew)))
+                using (var reader = new System.IO.BinaryReader(stream))
                 {
-                    byte[] buffer = new byte[1024];
-                    int len = 0;
-                    while ((len = reader.Read(buffer, 0, buffer.Length)) > 0)
+                    using (BinaryWriter bw = new BinaryWriter(new FileStream(Constants.DatabasePath, FileMode.CreateNew)))
                     {
-                        bw.Write(buffer, 0, len);
+                        byte[] buffer = new byte[1024];
+                        int len = 0;
+                        while ((len = reader.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            bw.Write(buffer, 0, len);
+                        }
                     }
                 }
             }
-
         }
 
         public EstekharehDatabase()
@@ -46,7 +48,7 @@ namespace Estekhareh.Services
             Init();
         }
 
-        private void Init()
+        public static void Init()
         {
             if (Database is null)
             {
@@ -88,9 +90,13 @@ namespace Estekhareh.Services
             return Database.ExecuteAsync("update tbl_setting set enable_trans = ?, last_index=?, translator_index=? where id=1", appSetting.enable_trans, appSetting.last_index, appSetting.translator_index);
         }
 
-        public Task<List<QuranTranslator>> GetTranslators()
+        public async Task<List<QuranTranslator>> GetTranslators()
         {
-            return Database.QueryAsync<QuranTranslator>($"select * from tbl_trans");
+            if (_cachedTranslators is null)
+            {
+                _cachedTranslators = await Database.QueryAsync<QuranTranslator>($"select * from tbl_trans");
+            }
+            return _cachedTranslators;
         }
 
     }
