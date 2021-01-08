@@ -7,27 +7,29 @@
     <ContentPage.Content>
         <Grid Margin="20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.4*" />
-                <ColumnDefinition Width="0.6*" />
+                <ColumnDefinition Width="0.35*" />
+                <ColumnDefinition Width="0.65*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="50" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Label Text="ترجمه نمایش داده شود" Style="{DynamicResource PageLabel}"/>
+            <Label Text="نمایش ترجمه" FontSize="17" Style="{DynamicResource PageLabel}"/>
             <Switch IsToggled="{Binding IsTranslateEnabled}" 
                     Grid.Column="1"/>
-            <Label Text="مترجم" Style="{DynamicResource PageLabel}" Grid.Row="1"/>
+            <Label Text="مترجم" FontSize="17" VerticalOptions="Center" Style="{DynamicResource PageLabel}" Grid.Row="1"/>
             <Picker SelectedItem="{Binding SelectedTranslator}"                    
                     ItemsSource="{Binding Translators}"
                     ItemDisplayBinding="{Binding Name}"
+                    FontSize="17"
                     Grid.Row="1" Grid.Column="1"/>
-            <Button Margin="0,10,0,0" Text="save" Grid.Row="2" Grid.ColumnSpan="2"
+            <Button Margin="0,10,0,0" Text="ذخیره" Grid.Row="3" Grid.ColumnSpan="2"
                         Command="{Binding SaveCommand}"
                         BackgroundColor="{StaticResource Primary}"
-                        FontSize="Medium"
+                        FontSize="18"
                         TextColor="White" />
         </Grid>
     </ContentPage.Content>

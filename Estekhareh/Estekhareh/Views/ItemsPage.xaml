@@ -18,7 +18,6 @@
         <CollectionView x:Name="ItemsListView"
                 x:DataType="local:ItemsViewModel"
                 ItemsSource="{Binding Items}"
-                EmptyView="تاکنون استخاره ای نداشته اید"
                 SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
@@ -48,6 +47,15 @@
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                <Frame>
+                    <Label FontSize="18"
+                           TextColor="{StaticResource LabelColor}"
+                           HorizontalTextAlignment="Center"
+                           VerticalTextAlignment="Center"
+                           Text="تاکنون موردی درج نشده است" />
+                </Frame>
+            </CollectionView.EmptyView>
         </CollectionView>
     <!--</RefreshView>-->
 </ContentPage>
