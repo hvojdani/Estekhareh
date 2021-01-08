@@ -9,7 +9,6 @@ namespace Estekhareh
 {
     public partial class App : Application
     {
-
         public App()
         {
             InitializeComponent();
@@ -21,17 +20,7 @@ namespace Estekhareh
 
         protected override void OnStart()
         {
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-            {
-                Task.Run(async () =>
-                {
-                    EstekharehDatabase.Init();
-                    var database = DependencyService.Get<IEstekharehDatabase>();
-                    await database.GetSetting();
-                    await database.GetTranslators();
-                });
-                return false;
-            });
+            InitDbAndCache();
         }
 
         protected override void OnSleep()
@@ -40,6 +29,23 @@ namespace Estekhareh
 
         protected override void OnResume()
         {
+            InitDbAndCache();
+        }
+
+        private static void InitDbAndCache()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                _ = Task.Run(async () =>
+                {
+                    EstekharehDatabase.Init();
+                    var database = DependencyService.Get<IEstekharehDatabase>();
+                    _ = await database.GetSetting();
+                    _ = await database.GetTranslators();
+                });
+
+                return false;
+            });
         }
     }
 }
