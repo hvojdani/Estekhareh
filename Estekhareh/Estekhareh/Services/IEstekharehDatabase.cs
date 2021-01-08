@@ -10,7 +10,7 @@ namespace Estekhareh.Services
         Task<List<QuranText>> GetAyas(params int[] ayaIndexs);
         Task<List<QuranTranslate>> GetTranslates(int translaorIndex, params int[] ayaIndexs);
         Task<List<QuranSura>> GetSuras(int[] suraIndexs);
-        Task<EstekharehSetting> GetSetting();
+        Task<EstekharehSetting> GetSetting(bool forceRefresh = false);
         Task<int> SetSetting(EstekharehSetting appSetting);
         Task<List<QuranTranslator>> GetTranslators();        
     }

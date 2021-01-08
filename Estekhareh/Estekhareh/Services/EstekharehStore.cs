@@ -43,16 +43,13 @@ namespace Estekhareh.Services
             }
 
             var ayaList = await DataBaseStore.GetAyas(ayasIndex);
+            var suras = await DataBaseStore.GetSuras(ayaList.Select(a => a.sura).Distinct().ToArray());
 
             var setting = await DataBaseStore.GetSetting();
-            var translateList = new List<QuranTranslate>();
-            if (setting.enable_trans == 1)
-            {
-                translateList = await DataBaseStore.GetTranslates(setting.translator_index, ayasIndex);
-            }
+            var translateList = setting.enable_trans == 1
+                ? await DataBaseStore.GetTranslates(setting.translator_index, ayasIndex)
+                : new List<QuranTranslate>();
 
-            var suras = await DataBaseStore.GetSuras(ayaList.Select(a => a.sura).Distinct().ToArray());
-            
             return ayaList.Select((aya) => new Item
             {
                 Id = aya.index,

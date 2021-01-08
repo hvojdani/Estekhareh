@@ -38,7 +38,7 @@
                         <Label.FormattedText>
                             <FormattedString>
                                 <Span Text="{Binding Text, Mode=OneWay}" FontSize="16"/>
-                                <Span Text="{Binding AyaDescription, Mode=OneWay, StringFormat='﴿{0}﴾'}" FontSize="12"/>
+                                <Span Text="{Binding AyaDescription, Mode=OneWay, StringFormat=' ﴿{0}﴾'}" FontSize="12"/>
                             </FormattedString>
                         </Label.FormattedText>
                         

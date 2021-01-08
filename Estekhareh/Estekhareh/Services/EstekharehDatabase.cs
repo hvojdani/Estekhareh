@@ -14,6 +14,7 @@ namespace Estekhareh.Services
     {
         static SQLiteAsyncConnection Database = null;
 
+        private EstekharehSetting _cachedSetting;
         public void CopyFromResourceToPhone()
         {
             if (File.Exists(Constants.DatabasePath))
@@ -71,14 +72,19 @@ namespace Estekhareh.Services
             return Database.QueryAsync<QuranSura>($"select * from quranNameList where id in ({string.Join(", ", suraIndexs)})");
         }
 
-        public async Task<EstekharehSetting> GetSetting()
+        public async Task<EstekharehSetting> GetSetting(bool forceRefresh = false)
         {
-            var settings = await Database.QueryAsync<EstekharehSetting>("select * from tbl_setting where id=1");
-            return settings.FirstOrDefault();
+            if (_cachedSetting is null || forceRefresh)
+            {
+                var settings = await Database.QueryAsync<EstekharehSetting>("select * from tbl_setting where id=1");
+                _cachedSetting = settings.FirstOrDefault();
+            }
+            return _cachedSetting;
         }
 
         public Task<int> SetSetting(EstekharehSetting appSetting)
         {
+            _cachedSetting = appSetting;
             return Database.ExecuteAsync("update tbl_setting set enable_trans = ?, last_index=?, translator_index=? where id=1", appSetting.enable_trans, appSetting.last_index, appSetting.translator_index);
         }
 
