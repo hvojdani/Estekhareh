@@ -27,13 +27,9 @@ namespace Estekhareh.Views
 
         protected override bool OnBackButtonPressed()
         {
-            GoToMain();
+            _viewModel.GoToMain();
             return true;
         }
 
-        private async void GoToMain()
-        {
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
-        }
     }
 }

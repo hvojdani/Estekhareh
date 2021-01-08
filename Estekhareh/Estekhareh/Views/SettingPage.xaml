@@ -35,7 +35,7 @@
             <Switch IsToggled="{Binding IsTranslateEnabled}" 
                     Grid.Column="1"/>
             <Label Text="مترجم" Grid.Row="1"/>
-            <Picker SelectedItem="{Binding SelectedTranslator}"
+            <Picker SelectedItem="{Binding SelectedTranslator}"                    
                     ItemsSource="{Binding Translators}"
                     ItemDisplayBinding="{Binding Name}"
                     Grid.Row="1" Grid.Column="1"/>

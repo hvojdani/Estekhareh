@@ -77,7 +77,7 @@ namespace Estekhareh.ViewModels
 
         public async void OnBackButtonPressed()
         {
-            await Shell.Current.GoToAsync($"//{ nameof(AboutPage)}", true);
+            await Shell.Current.GoToAsync($"//{ nameof(MainPage)}", true);
         }
 
         public Item SelectedItem

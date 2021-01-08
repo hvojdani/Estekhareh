@@ -7,12 +7,12 @@ using Xamarin.Forms;
 
 namespace Estekhareh.ViewModels
 {
-    public class AboutViewModel : BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
 
         public ICommand OpenEstekhareResultCommand { get; }
 
-        public AboutViewModel()
+        public MainViewModel()
         {
             Title = "استخاره";
             OpenEstekhareResultCommand = new Command(async() => await GoToResultPage());

@@ -40,18 +40,23 @@ namespace Estekhareh.ViewModels
                 EnableTranslation = IsTranslateEnabled,
                 TranslatorIndex = SelectedTranslator.Index
             });
+
+            GoToMain();
+        }
+
+        public async void GoToMain()
+        {
             // Prefixing with `//` switches to a different navigation stack instead of pushing to the active one
-            await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
         }
 
         public async void OnAppearing()
         {
-            await LoadTranslators();
             var setting = await DataStore.GetSetting();
-
-            IsTranslateEnabled = setting.EnableTranslation;
+            await LoadTranslators();
 
             SelectedTranslator = Translators.FirstOrDefault(t => t.Index == setting.TranslatorIndex);
+            IsTranslateEnabled = setting.EnableTranslation;
         }
 
         private async Task LoadTranslators()
