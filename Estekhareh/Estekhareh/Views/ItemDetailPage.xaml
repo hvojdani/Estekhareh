@@ -3,20 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Estekhareh.Views.ItemDetailPage"
              Title="{Binding Title}">
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style x:Key="AyaTextStyle" TargetType="Label">
-                <Setter Property="TextColor" Value="#1e39bf"/>
-            </Style>
-            <Style TargetType="Label">
-                <Setter Property="TextColor" Value="Black"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     
     <StackLayout Spacing="20" Padding="15" FlowDirection="RightToLeft">
         <Label Text="{Binding AyaDescription}" FontSize="14" />
-        <Label Text="{Binding Text}" FontSize="18" Style="{DynamicResource AyaTextStyle}"/>
+        <Label Text="{Binding Text}" FontSize="18" Style="{DynamicResource ListItemTextStyle}"/>
         <Label Text="{Binding Description}" FontSize="14"/>
     </StackLayout>
     

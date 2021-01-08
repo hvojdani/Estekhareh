@@ -3,17 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"            
              x:Class="Estekhareh.Views.SettingPage"
              FlowDirection="RightToLeft">
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Picker">
-                <Setter Property="TextColor" Value="Black"/>
-            </Style>
-            <Style TargetType="Label">
-                <Setter Property="TextColor" Value="Black"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
     
     <ContentPage.Content>
         <Grid Margin="20">
@@ -26,11 +15,11 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            
-            <Label Text="ترجمه نمایش داده شود" />
+
+            <Label Text="ترجمه نمایش داده شود" Style="{DynamicResource PageLabel}"/>
             <Switch IsToggled="{Binding IsTranslateEnabled}" 
                     Grid.Column="1"/>
-            <Label Text="مترجم" Grid.Row="1"/>
+            <Label Text="مترجم" Style="{DynamicResource PageLabel}" Grid.Row="1"/>
             <Picker SelectedItem="{Binding SelectedTranslator}"                    
                     ItemsSource="{Binding Translators}"
                     ItemDisplayBinding="{Binding Name}"
