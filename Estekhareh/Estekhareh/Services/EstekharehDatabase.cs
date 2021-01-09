@@ -7,12 +7,30 @@ using System.IO;
 using System.Linq;
 using System.Resources;
 using System.Threading.Tasks;
+using System;
 
 namespace Estekhareh.Services
 {
     public class EstekharehDatabase : IEstekharehDatabase
     {
-        static SQLiteAsyncConnection Database = null;
+        static SQLiteAsyncConnection _database;
+        private SQLiteAsyncConnection Database 
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    if (_database is null)
+                    {
+                        CopyFromResourceToPhone();
+                        _database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
+                    }
+                }
+                return _database;
+            }
+        }
+
+        private object _lock = new object();
 
         private EstekharehSetting _cachedSetting;
         private List<QuranTranslator> _cachedTranslators;
@@ -45,16 +63,6 @@ namespace Estekhareh.Services
 
         public EstekharehDatabase()
         {
-            Init();
-        }
-
-        public static void Init()
-        {
-            if (Database is null)
-            {
-                CopyFromResourceToPhone();
-                Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-            }
         }
 
         public Task<List<QuranText>> GetAyas(params int[] ayaIndexs)
@@ -84,7 +92,7 @@ namespace Estekhareh.Services
             return _cachedSetting;
         }
 
-        public Task<int> SetSetting(EstekharehSetting appSetting)
+        public Task SetSetting(EstekharehSetting appSetting)
         {
             _cachedSetting = appSetting;
             return Database.ExecuteAsync("update tbl_setting set enable_trans = ?, last_index=?, translator_index=? where id=1", appSetting.enable_trans, appSetting.last_index, appSetting.translator_index);

@@ -1,20 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"            
-             x:Class="Estekhareh.Views.SettingPage"
+             xmlns:vm="clr-namespace:Estekhareh.ViewModels"
+             x:Class="Estekhareh.Views.SettingPage"             
              FlowDirection="RightToLeft">
     
     <ContentPage.Content>
-        <Grid Margin="20">
+        <Grid Margin="20" x:DataType="vm:SettingViewModel">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.35*" />
                 <ColumnDefinition Width="0.65*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="45" />
+                <RowDefinition Height="45" />
                 <RowDefinition Height="50" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="55" />
             </Grid.RowDefinitions>
 
             <Label Text="نمایش ترجمه" FontSize="17" Style="{DynamicResource PageLabel}"/>
@@ -26,7 +27,7 @@
                     ItemDisplayBinding="{Binding Name}"
                     FontSize="17"
                     Grid.Row="1" Grid.Column="1"/>
-            <Button Margin="0,10,0,0" Text="ذخیره" Grid.Row="3" Grid.ColumnSpan="2"
+            <Button Text="ذخیره" Grid.Row="3" Grid.ColumnSpan="2"
                         Command="{Binding SaveCommand}"
                         BackgroundColor="{StaticResource Primary}"
                         FontSize="18"

@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Estekhareh.ViewModels"
              x:Class="Estekhareh.Views.ItemDetailPage"
              Title="{Binding Title}">
-    
-    <StackLayout Spacing="20" Padding="15" FlowDirection="RightToLeft">
+
+    <StackLayout x:DataType="vm:ItemDetailViewModel" Spacing="20" Padding="15" FlowDirection="RightToLeft">
         <Label Text="{Binding AyaDescription}" Style="{DynamicResource PageLabel}" FontSize="14" />
         <Label Text="{Binding Text}" FontSize="18" Style="{DynamicResource ListItemTextStyle}"/>
         <Label Text="{Binding Description}" Style="{DynamicResource PageLabel}" FontSize="14"/>

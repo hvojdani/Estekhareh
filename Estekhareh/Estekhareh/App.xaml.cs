@@ -20,7 +20,7 @@ namespace Estekhareh
 
         protected override void OnStart()
         {
-            InitDbAndCache();
+            WarmDbAndCache();
         }
 
         protected override void OnSleep()
@@ -29,19 +29,20 @@ namespace Estekhareh
 
         protected override void OnResume()
         {
-            InitDbAndCache();
+            WarmDbAndCache();
         }
 
-        private static void InitDbAndCache()
+        private static void WarmDbAndCache()
         {
             Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
                 _ = Task.Run(async () =>
                 {
-                    EstekharehDatabase.Init();
                     var database = DependencyService.Get<IEstekharehDatabase>();
-                    _ = await database.GetSetting();
-                    _ = await database.GetTranslators();
+                    await Task.WhenAll(
+                        database.GetSetting(),
+                        database.GetTranslators()
+                    );
                 });
 
                 return false;
