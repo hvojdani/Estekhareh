@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\SheardResources\SheardResources.csproj" />
+    <ProjectReference Include="..\SheardResources\SheardResources.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estekhareh.Android", "Estekhareh\Estekhareh.Android\Estekhareh.Android.csproj", "{FA3FE48D-748D-4EDB-96AA-9F43504F529A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estekhareh.Android", "src\Estekhareh.Android\Estekhareh.Android.csproj", "{FA3FE48D-748D-4EDB-96AA-9F43504F529A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estekhareh.iOS", "Estekhareh\Estekhareh.iOS\Estekhareh.iOS.csproj", "{335E28F8-A8BE-40FD-8362-DBB951150670}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Estekhareh.iOS", "src\Estekhareh.iOS\Estekhareh.iOS.csproj", "{335E28F8-A8BE-40FD-8362-DBB951150670}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estekhareh", "Estekhareh\Estekhareh\Estekhareh.csproj", "{975A5178-7D8A-429A-856F-D7C4901B25BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Estekhareh", "src\Estekhareh\Estekhareh.csproj", "{975A5178-7D8A-429A-856F-D7C4901B25BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SheardResources", "SheardResources\SheardResources.csproj", "{46724AEB-CB1E-4DB9-8C44-7D9167192624}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SheardResources", "src\SheardResources\SheardResources.csproj", "{46724AEB-CB1E-4DB9-8C44-7D9167192624}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

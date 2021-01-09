@@ -6,6 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: "nuget" 
-    directory: "/Estekhareh/Estekhareh/" 
+    directory: "/src/Estekhareh/" 
     schedule:
       interval: "weekly"
